@@ -13,78 +13,102 @@ import {
 } from "@chakra-ui/react";
 import { Box, Container, Flex, Button, Heading } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { apiUrl, token } from "../../common/https";
+import { apiUrl, fieUrl, token } from "../../common/https";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import JoditEditor from "jodit-react";
 
-const Create = ({placeholder}) => {
-    const editor = useRef(null);
-    const [content, setContent] = useState('');
-    const [isDisabled, setIsDisabled] = useState(false);
-    const [imageId, setImageId] = useState(null);
-    const config = useMemo(() => ({
-        readonly:false,
-        placeholder:placeholder || "Type here...",
-    }), [placeholder]);
-    const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const bgCard = useColorModeValue("white", "gray.800");
-  const headingColor = useColorModeValue("gray.700", "white");
-
-  const onSubmit = async (data) => {
-    const newData = { ...data, "content": content , "imageId": imageId};
-    const response = await fetch(apiUrl + "services", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: "Bearer " + token(),
-      },
-      body: JSON.stringify(newData)
-    });
-     const res = await response.json();
-     if (!res.status) {
-       toast.error(res.message);
-       return;
-     }else{
-       toast.success(res.message);
-        navigate('/admin/services');
-     }
-     console.log(res);
-     
-  };
-
-  const handleFile = async(e) => {
-    const formData = new FormData();
-    const file = e.target.files[0];
-    formData.append("image", file);
-    await fetch(apiUrl + "temp-images", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        Authorization: "Bearer " + token(),
-      },
-      body: formData
-    }).then(res => res.json()).then(res => {
-        setIsDisabled(true);
-        if (res.status==false) {
-            toast.error(res.errors.image[0]);
-            setIsDisabled(false);
-        }else{
-            setImageId(res.data.id);
-            setIsDisabled(false);
+const Edit = ({placeholder}) => {
+        const editor = useRef(null);
+        const [service, setService] = useState({});
+        const [content, setContent] = useState('');
+        const [isDisabled, setIsDisabled] = useState(false);
+        const [imageId, setImageId] = useState(null);
+        const params = useParams();
+        const config = useMemo(() => ({
+            readonly:false,
+            placeholder:placeholder || "",
+        }), [placeholder]);
+        const navigate = useNavigate();
+      const {
+        register,
+        handleSubmit,
+        formState: { errors },
+      } = useForm({
+        defaultValues:async () => {
+              const response = await fetch(apiUrl + "services/" + params.id, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: "Bearer " + token(),
+          },
+        });
+         const res = await response.json();
+         setContent(res.data.content);
+         setService(res.data);
+         console.log(res);
+         return {
+           title: res.data.title,
+           slug: res.data.slug,
+           status: res.data.status,
+           short_desc: res.data.short_desc,
+           content: res.data.content,
+           imageId: res.data.imageId
+         }
+         
         }
-        setIsDisabled(false);
-    });
-  };
-
+      });
+      const bgCard = useColorModeValue("white", "gray.800");
+      const headingColor = useColorModeValue("gray.700", "white");
+    
+      const onSubmit = async (data) => {
+        const newData = { ...data, "content": content , "imageId": imageId};
+        const response = await fetch(apiUrl + "services/" + params.id, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: "Bearer " + token(),
+          },
+          body: JSON.stringify(newData)
+        });
+         const res = await response.json();
+         if (!res.status) {
+           toast.error(res.message);
+           return;
+         }else{
+           toast.success(res.message);
+            navigate('/admin/services');
+         }
+         
+      };
+    
+      const handleFile = async(e) => {
+        const formData = new FormData();
+        const file = e.target.files[0];
+        formData.append("image", file);
+        await fetch(apiUrl + "temp-images", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            Authorization: "Bearer " + token(),
+          },
+          body: formData
+        }).then(res => res.json()).then(res => {
+            setIsDisabled(true);
+            if (res.status==false) {
+                toast.error(res.errors.image[0]);
+                setIsDisabled(false);
+            }else{
+                setImageId(res.data.id);
+                setIsDisabled(false);
+            }
+            setIsDisabled(false);
+        });
+      };
   return (
-    <>
+      <>
       <Header />
       <Container maxW="container.xl" p={4}>
         <Flex gap={6}>
@@ -102,7 +126,7 @@ const Create = ({placeholder}) => {
           >
             <Flex justify="space-between" align="center" mb={6}>
               <Heading size="md" fontWeight="semibold" color={headingColor}>
-                Services/Create
+                Services/Edit
               </Heading>
               <Button
                 colorScheme="pink"
@@ -181,6 +205,12 @@ const Create = ({placeholder}) => {
                   onChange={handleFile}
                     type="file"
                   />
+                  {service?.image && (
+                    <img
+                      src={fieUrl+'uploads/services/small/'+service?.image}
+                      style={{ width: "100px", height: "100px" }}
+                    />
+                  )}
                 </FormControl>
 
                 <FormControl>
@@ -207,7 +237,7 @@ const Create = ({placeholder}) => {
                   transition="all 0.2s"
                   isDisabled={isDisabled}
                 >
-                  SUBMIT
+                  Update
                 </Button>
               </VStack>
             </form>
@@ -216,7 +246,7 @@ const Create = ({placeholder}) => {
       </Container>
       <Footer />
     </>
-  );
-};
+  )
+}
 
-export default Create;
+export default Edit

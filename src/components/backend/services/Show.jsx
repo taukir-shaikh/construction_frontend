@@ -18,6 +18,7 @@ import {
 import Sidebar from '../../common/Sidebar'
 import { apiUrl, token } from '../../common/https'
 import { Navigate, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const Show = () => {
     const [services, setServices] = useState([]);
@@ -34,7 +35,6 @@ const Show = () => {
             }
         })
         const data = await response.json();
-        console.log(data);
         
        setServices(Array.isArray(data?.data) ? data.data : [])
       } catch (error) {
@@ -53,15 +53,34 @@ const Show = () => {
     
       const handleCreate = () => {
         navigate('/admin/services/create');
-        console.log('Create new service clicked')
       }
     
       const handleEdit = (id) => {
-        console.log(`Edit service with ID: ${id}`)
+        navigate(`/admin/services/edit/${id}`);
       }
     
-      const handleDelete = (id) => {
-        console.log(`Delete service with ID: ${id}`)
+      const handleDelete = async (id) => {
+        if (confirm('Are you sure you want to delete this service?')) {
+            
+            const response = await fetch(apiUrl + 'services' + '/' + id,{
+                method:'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + token(),
+                }
+            })
+            const res = await response.json();
+
+            if (res.status==true) {
+                const filteredServices = services.filter(service => service.id !== id);
+                setServices(filteredServices);
+                toast.success(res.message);
+            }else{
+                toast.error(res.message);
+            }
+            
+        }
       }
     
   return (

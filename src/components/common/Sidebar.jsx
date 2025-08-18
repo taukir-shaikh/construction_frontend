@@ -22,9 +22,9 @@ const Sidebar = () => {
   const logoutBg = useColorModeValue('pink.50', 'pink.900')
 
   const linkItems = [
-    { label: 'Dashboard', icon: FaBlog, to: '/dashboard' },
+    { label: 'Dashboard', icon: FaBlog, to: '/admin/dashboard' },
     { label: 'Articles', icon: FaNewspaper, to: '/articles' },
-    { label: 'Services', icon: FaProjectDiagram, to: '/services' },
+    { label: 'Services', icon: FaProjectDiagram, to: '/admin/services' },
     { label: 'Projects', icon: FaProjectDiagram, to: '/projects' },
     { label: 'Testimonials', icon: FaQuoteRight, to: '/testimonials' },
     { label: 'Members', icon: FaUsers, to: '/members' },

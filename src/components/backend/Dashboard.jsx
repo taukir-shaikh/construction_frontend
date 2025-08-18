@@ -13,6 +13,7 @@ import {
   Button,
   Heading,
   useColorModeValue,
+  Text,
 } from '@chakra-ui/react'
 import Header from '../common/Header'
 import Footer from '../common/Footer'
@@ -62,7 +63,8 @@ const Dashboard = () => {
             boxShadow="lg"
             transition="all 0.3s ease"
           >
-            <Flex justify="space-between" align="center" mb={6}>
+            <Text fontSize="xl" fontWeight="bold" mb={6} textAlign={"center"}>Welcome to Admin Dashboard</Text>
+            {/* <Flex justify="space-between" align="center" mb={6}>
               <Heading size="md" fontWeight="semibold" color={headingColor}>
                 Services
               </Heading>
@@ -138,7 +140,7 @@ const Dashboard = () => {
                   </Tr>
                 ))}
               </Tbody>
-            </Table>
+            </Table> */}
           </Box>
         </Flex>
       </Container>
