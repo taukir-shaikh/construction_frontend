@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Container,
@@ -11,31 +11,43 @@ import {
   Grid,
   Flex,
 } from "@chakra-ui/react";
+import { apiUrl } from "../common/https";
 
-const services = [
-  {
-    title: "Specialty Construction",
-    img: "../src/assets/images/construction2.jpg",
-    desc: "Specialty construction services tailored to unique projects.",
-  },
-  {
-    title: "Industrial Construction",
-    img: "../src/assets/images/construction3.jpg",
-    desc: "Large-scale industrial building solutions for factories and plants.",
-  },
-  {
-    title: "Building Construction",
-    img: "../src/assets/images/construction5.jpg",
-    desc: "Building construction is a broad and essential sector within the construction industry that focuses on the creation of structures designed for human occupancy and use.",
-  },
-  {
-    title: "Residential Construction",
-    img: "../src/assets/images/construction6.jpg",
-    desc: "Custom and large-scale housing projects for all needs.",
-  },
-];
+// const services = [
+//   {
+//     title: "Specialty Construction",
+//     img: "../src/assets/images/construction2.jpg",
+//     desc: "Specialty construction services tailored to unique projects.",
+//   },
+//   {
+//     title: "Industrial Construction",
+//     img: "../src/assets/images/construction3.jpg",
+//     desc: "Large-scale industrial building solutions for factories and plants.",
+//   },
+//   {
+//     title: "Building Construction",
+//     img: "../src/assets/images/construction5.jpg",
+//     desc: "Building construction is a broad and essential sector within the construction industry that focuses on the creation of structures designed for human occupancy and use.",
+//   },
+//   {
+//     title: "Residential Construction",
+//     img: "../src/assets/images/construction6.jpg",
+//     desc: "Custom and large-scale housing projects for all needs.",
+//   },
+// ];
 
 const Services = () => {
+    const [services, setServices] = useState([]);
+  const fetchLatestServices = async () => {
+    const response = await fetch(apiUrl + "get-latest-services?limit=3");
+    const result = await response.json();    
+    setServices(result);
+  };
+
+  useEffect(() => {
+    fetchLatestServices();
+  }, []);
+  
   return (
     <Box w={"100%"} bg="gray.50" py={10}>
       <Container maxW="8xl" textAlign="center">
@@ -49,7 +61,7 @@ const Services = () => {
         </Text>
 
         <Flex gap={4} justifyContent={"space-between"} alignItems={"center"}>
-          {services.map((service, i) => (
+          {services?.map((service, i) => (
             <Box
               key={i}
               position="relative"
@@ -63,7 +75,7 @@ const Services = () => {
             >
               {/* Image */}
               <Image
-                src={service.img}
+                src={service.image|| "../src/assets/images/construction1.jpg"}
                 alt={service.title}
                 objectFit="cover"
                 w="100%"
@@ -105,7 +117,7 @@ const Services = () => {
                   {service.title}
                 </Heading>
                 <Text color="gray.200" mb={4} fontSize="sm">
-                  {service.desc}
+                  {service.short_desc}
                 </Text>
                 <Button size="sm" colorScheme="pink">
                   READ MORE

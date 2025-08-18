@@ -1,4 +1,3 @@
-import React from "react";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import Hero from "../components/frontend/Hero";
@@ -10,16 +9,17 @@ import Testimony from "../components/frontend/Testimony";
 import Blogs from "../components/frontend/Blogs";
 
 const Home = () => {
+
   return (
     <>
       <Header />
-      <Hero/>
-      <About/>
-      <Services/>
-      <WhyChooseUs/>
-      <Projects/>
-      <Testimony/>
-      <Blogs/>
+      <Hero />
+      <About />
+      <Services />
+      <WhyChooseUs />
+      <Projects />
+      <Testimony />
+      <Blogs />
       <Footer />
     </>
   );
