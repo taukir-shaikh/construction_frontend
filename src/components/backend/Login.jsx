@@ -18,13 +18,19 @@ import {useForm} from 'react-hook-form'
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { authContext } from "./context/Auth";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 const Login = () => {
   const {login}= useContext(authContext);
     const {register,handleSubmit,formState:{errors}}=useForm();
   const bg = useColorModeValue("gray.50", "gray.900");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("userInfo")) {
+      navigate("/admin/dashboard");
+    }
+  }, []);
 
   const onSubmit = async (data) => {
     const res = await fetch("http://localhost:8000/api/authenticate", {
