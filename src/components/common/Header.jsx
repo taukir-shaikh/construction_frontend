@@ -12,9 +12,18 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { useEffect, useState } from "react";
 
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
+
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("userInfo")) {
+      setIsUserLoggedIn(true);
+    }
+  }, []);
 
   return (
     <Flex
@@ -109,12 +118,15 @@ const Header = () => {
           _hover={{ boxShadow: "md" }}
         />
 
-        <Button variant="solid" colorScheme="teal" size="sm">
-          Sign In
-        </Button>
-        <Button variant="outline" colorScheme="teal" size="sm">
-          Sign Out
-        </Button>
+        {isUserLoggedIn ? (
+          <Button variant="outline" colorScheme="teal" size="sm">
+            Sign Out
+          </Button>
+        ) : (
+          <Button variant="solid" colorScheme="teal" size="sm">
+            Sign In
+          </Button>
+        )}
       </HStack>
     </Flex>
   );
