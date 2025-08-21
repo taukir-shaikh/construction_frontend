@@ -11,7 +11,7 @@ import {
   Grid,
   Flex,
 } from "@chakra-ui/react";
-import { apiUrl } from "../common/https";
+import { apiUrl, fieUrl } from "../common/https";
 
 // const services = [
 //   {
@@ -75,7 +75,8 @@ const Services = () => {
             >
               {/* Image */}
               <Image
-                src={service.image|| "../src/assets/images/construction1.jpg"}
+                // src={service.image|| "../src/assets/images/construction1.jpg"}
+                src={service?.image ? `${fieUrl}uploads/services/small/${service.image}` : "../src/assets/images/construction1.jpg"}
                 alt={service.title}
                 objectFit="cover"
                 w="100%"

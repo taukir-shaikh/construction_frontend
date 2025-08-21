@@ -11,11 +11,11 @@ import {
   Grid,
   Flex,
 } from "@chakra-ui/react";
-import { apiUrl } from "../common/https";
+import { apiUrl, fieUrl } from "../common/https";
 
 const Projects = () => {
       const [projects, setProjects] = useState([]);
-    const fetchLatestServices = async () => {
+    const fetchLatestProjects = async () => {
       const response = await fetch(apiUrl + "get-latest-projects?limit=3");
       const result = await response.json();  
       console.log(result?.data);
@@ -24,7 +24,7 @@ const Projects = () => {
     };
   
     useEffect(() => {
-      fetchLatestServices();
+      fetchLatestProjects();
     }, []);
 
   return (
@@ -54,7 +54,8 @@ const Projects = () => {
             >
               {/* Image */}
               <Image
-                src={project.img}
+                // src={project.img}
+                src={`${fieUrl}uploads/projects/small/${project.image}`}
                 alt={project.title}
                 objectFit="cover"
                 w="100%"
