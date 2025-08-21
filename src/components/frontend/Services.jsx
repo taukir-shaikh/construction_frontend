@@ -37,17 +37,17 @@ import { apiUrl, fieUrl } from "../common/https";
 // ];
 
 const Services = () => {
-    const [services, setServices] = useState([]);
+  const [services, setServices] = useState([]);
   const fetchLatestServices = async () => {
     const response = await fetch(apiUrl + "get-latest-services?limit=3");
-    const result = await response.json();    
+    const result = await response.json();
     setServices(result);
   };
 
   useEffect(() => {
     fetchLatestServices();
   }, []);
-  
+
   return (
     <Box w={"100%"} bg="gray.50" py={10}>
       <Container maxW="8xl" textAlign="center">
@@ -76,7 +76,11 @@ const Services = () => {
               {/* Image */}
               <Image
                 // src={service.image|| "../src/assets/images/construction1.jpg"}
-                src={service?.image ? `${fieUrl}uploads/services/small/${service.image}` : "../src/assets/images/construction1.jpg"}
+                src={
+                  service?.image
+                    ? `${fieUrl}uploads/services/small/${service.image}`
+                    : "../src/assets/images/construction1.jpg"
+                }
                 alt={service.title}
                 objectFit="cover"
                 w="100%"
