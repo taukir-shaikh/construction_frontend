@@ -54,7 +54,6 @@ const Projects = () => {
             >
               {/* Image */}
               <Image
-                // src={project.img}
                 src={`${fieUrl}uploads/projects/small/${project.image}`}
                 alt={project.title}
                 objectFit="cover"

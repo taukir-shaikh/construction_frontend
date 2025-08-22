@@ -1,12 +1,25 @@
-import { Box,Text } from "@chakra-ui/react";
-import Blogs from '../components/frontend/Blogs';
+import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
+import { useEffect, useState } from "react";
+import { apiUrl, fieUrl } from "../components/common/https";
 
 const BlogPage = () => {
+  const [articles, setArticles] = useState([]);
+  const fetchArticles = async () => {
+    const response = await fetch(apiUrl + "get-articles");
+    const result = await response.json();
+
+    setArticles(result?.data);
+  };
+
+  useEffect(() => {
+    fetchArticles();
+  }, []);
+
   return (
     <>
-     <Header />
+      <Header />
       <Box w="100%">
         <Box
           backgroundImage={`linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.2)), url('../src/assets/images/hero.jpg')`}
@@ -48,11 +61,81 @@ const BlogPage = () => {
             craftsmanship
           </Text>
         </Box>
-        <Blogs/>
-      </Box>
-      <Footer/>
-      </>
-  )
-}
+        {/* <Blogs/> */}
+        <Flex gap={4} justifyContent={"flex-start"} alignItems={"center"}>
+          {articles &&
+            articles?.map((project, i) => (
+              <Box
+                key={i}
+                position="relative"
+                borderRadius="xl"
+                overflow="hidden"
+                role="group"
+                cursor="pointer"
+                boxShadow="md"
+                _hover={{ transform: "translateY(-5px)" }}
+                transition="0.3s ease-in-out"
+              >
+                {/* Image */}
+                <Image
+                  // src={project.img}
+                  src={`${fieUrl}uploads/articles/small/${project.image}`}
+                  alt={project.title}
+                  style={{
+                    width: "100%",
+                    height: "300px",
+                    objectFit: "cover",
+                  }}
+                  transition="0.3s ease-in-out"
+                />
 
-export default BlogPage
+                {/* Title */}
+                <Text
+                  position="absolute"
+                  bottom="4"
+                  left="4"
+                  fontWeight="bold"
+                  fontSize="lg"
+                  color="white"
+                >
+                  {project.title}
+                </Text>
+
+                {/* Hover overlay */}
+                <Box
+                  position="absolute"
+                  top="0"
+                  left="0"
+                  w="100%"
+                  h="100%"
+                  bg="rgba(0,0,0,0.6)"
+                  opacity="0"
+                  transition="0.3s ease-in-out"
+                  _hover={{ opacity: 1 }}
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="center"
+                  alignItems="center"
+                  p={6}
+                  textAlign="center"
+                >
+                  <Heading size="md" color="white" mb={3}>
+                    {project.title}
+                  </Heading>
+                  <Text color="gray.200" mb={4} fontSize="sm">
+                    {project.desc}
+                  </Text>
+                  <Button size="sm" colorScheme="pink">
+                    READ MORE
+                  </Button>
+                </Box>
+              </Box>
+            ))}
+        </Flex>
+      </Box>
+      <Footer />
+    </>
+  );
+};
+
+export default BlogPage;

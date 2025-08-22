@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Container,
@@ -8,21 +8,22 @@ import {
   Image,
   SimpleGrid,
 } from "@chakra-ui/react";
-
-const posts = [
-  {
-    title: "One of the defining characteristics of civil construction",
-    image: "../src/assets/images/construction8.jpg",
-    link: "#",
-  },
-  {
-    title: "Key Elements of Civil Construction within the construction",
-    image: "../src/assets/images/construction9.jpg",
-    link: "#",
-  },
-];
+import { apiUrl, fieUrl } from "../common/https";
 
 const Blogs = () => {
+  const [articles, setArticles] = useState([]);
+  const fetchLatestArticles = async () => {
+    const response = await fetch(apiUrl + "get-latest-articles?limit=3");
+    const result = await response.json();
+
+    setArticles(result?.data);
+    console.log(result?.data);
+  };
+
+  useEffect(() => {
+    fetchLatestArticles();
+  }, []);
+
   return (
     <Box bg="gray.50" py={16}>
       <Container maxW="7xl" textAlign="center">
@@ -41,8 +42,9 @@ const Blogs = () => {
         </Text>
 
         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-          {posts.map((post, idx) => (
+          {articles.map((post, idx) => (
             <Box
+              cursor={"pointer"}
               key={idx}
               bg="white"
               borderRadius="2xl"
@@ -53,7 +55,7 @@ const Blogs = () => {
               textAlign="left"
             >
               <Image
-                src={post.image}
+                src={`${fieUrl}uploads/articles/small/${post.image}`}
                 alt={post.title}
                 w="100%"
                 h="220px"

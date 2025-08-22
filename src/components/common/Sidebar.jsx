@@ -23,7 +23,7 @@ const Sidebar = () => {
 
   const linkItems = [
     { label: 'Dashboard', icon: FaBlog, to: '/admin/dashboard' },
-    { label: 'Articles', icon: FaNewspaper, to: '/articles' },
+    { label: 'Articles', icon: FaNewspaper, to: '/admin/articles' },
     { label: 'Services', icon: FaProjectDiagram, to: '/admin/services' },
     { label: 'Projects', icon: FaProjectDiagram, to: '/admin/projects' },
     { label: 'Testimonials', icon: FaQuoteRight, to: '/testimonials' },

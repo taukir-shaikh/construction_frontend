@@ -1,17 +1,7 @@
-// Dashboard.jsx
-import React from 'react'
 import {
   Box,
   Container,
   Flex,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Button,
-  Heading,
   useColorModeValue,
   Text,
 } from '@chakra-ui/react'
@@ -21,30 +11,9 @@ import Sidebar from '../common/Sidebar'
 
 const Dashboard = () => {
   const bgCard = useColorModeValue('white', 'gray.800')
-  const tableHeadBg = useColorModeValue('gray.100', 'gray.700')
-  const hoverRowBg = useColorModeValue('gray.50', 'gray.600')
-  const headingColor = useColorModeValue('gray.700', 'white')
 
-  const services = [
-    { id: 8, title: 'Specialty Construction', slug: 'specialty-construction', status: 'Active' },
-    { id: 7, title: 'Civil Construction', slug: 'civil-construction', status: 'Active' },
-    { id: 6, title: 'Residential Construction', slug: 'residential-construction', status: 'Active' },
-    { id: 3, title: 'Corporate Construction', slug: 'corporate-construction-new', status: 'Active' },
-    { id: 2, title: 'Building Constructions', slug: 'building-constructions', status: 'Active' },
-    { id: 1, title: 'Industrial Construction', slug: 'industrial-construction', status: 'Active' },
-  ]
 
-  const handleCreate = () => {
-    console.log('Create new service clicked')
-  }
 
-  const handleEdit = (id) => {
-    console.log(`Edit service with ID: ${id}`)
-  }
-
-  const handleDelete = (id) => {
-    console.log(`Delete service with ID: ${id}`)
-  }
 
   return (
     <>
@@ -64,83 +33,6 @@ const Dashboard = () => {
             transition="all 0.3s ease"
           >
             <Text fontSize="xl" fontWeight="bold" mb={6} textAlign={"center"}>Welcome to Admin Dashboard</Text>
-            {/* <Flex justify="space-between" align="center" mb={6}>
-              <Heading size="md" fontWeight="semibold" color={headingColor}>
-                Services
-              </Heading>
-              <Button
-                colorScheme="pink"
-                borderRadius="full"
-                boxShadow="md"
-                _hover={{ boxShadow: 'xl', transform: 'scale(1.05)' }}
-                transition="all 0.2s"
-                onClick={handleCreate}
-              >
-                CREATE
-              </Button>
-            </Flex>
-
-            <Table variant="striped" colorScheme="gray" borderRadius="md" overflow="hidden">
-              <Thead bg={tableHeadBg}>
-                <Tr>
-                  <Th>ID</Th>
-                  <Th>Title</Th>
-                  <Th>Slug</Th>
-                  <Th>Status</Th>
-                  <Th>Action</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {services.map((service) => (
-                  <Tr
-                    key={service.id}
-                    _hover={{ bg: hoverRowBg }}
-                    transition="background 0.2s"
-                  >
-                    <Td>{service.id}</Td>
-                    <Td fontWeight="medium">{service.title}</Td>
-                    <Td>{service.slug}</Td>
-                    <Td>
-                      <Box
-                        as="span"
-                        px={3}
-                        py={1}
-                        bg="green.100"
-                        color="green.800"
-                        fontSize="sm"
-                        borderRadius="full"
-                      >
-                        {service.status}
-                      </Box>
-                    </Td>
-                    <Td>
-                      <Flex gap={2}>
-                        <Button
-                          size="sm"
-                          colorScheme="yellow"
-                          borderRadius="full"
-                          onClick={() => handleEdit(service.id)}
-                          _hover={{ transform: 'scale(1.05)' }}
-                          transition="all 0.2s"
-                        >
-                          EDIT
-                        </Button>
-                        <Button
-                          size="sm"
-                          colorScheme="red"
-                          borderRadius="full"
-                          onClick={() => handleDelete(service.id)}
-                          _hover={{ transform: 'scale(1.05)' }}
-                          transition="all 0.2s"
-                        >
-                          DELETE
-                        </Button>
-                      </Flex>
-                    </Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table> */}
           </Box>
         </Flex>
       </Container>
