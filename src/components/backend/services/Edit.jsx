@@ -1,4 +1,4 @@
-import React, { useState,useRef,useMemo } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import Sidebar from "../../common/Sidebar";
 import Footer from "../../common/Footer";
 import Header from "../../common/Header";
@@ -17,98 +17,102 @@ import { apiUrl, fieUrl, token } from "../../common/https";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import JoditEditor from "jodit-react";
+import PropTypes from "prop-types";
 
-const Edit = ({placeholder}) => {
-        const editor = useRef(null);
-        const [service, setService] = useState({});
-        const [content, setContent] = useState('');
-        const [isDisabled, setIsDisabled] = useState(false);
-        const [imageId, setImageId] = useState(null);
-        const params = useParams();
-        const config = useMemo(() => ({
-            readonly:false,
-            placeholder:placeholder || "",
-        }), [placeholder]);
-        const navigate = useNavigate();
-      const {
-        register,
-        handleSubmit,
-        formState: { errors },
-      } = useForm({
-        defaultValues:async () => {
-              const response = await fetch(apiUrl + "services/" + params.id, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: "Bearer " + token(),
-          },
-        });
-         const res = await response.json();
-         setContent(res.data.content);
-         setService(res.data);
-         console.log(res);
-         return {
-           title: res.data.title,
-           slug: res.data.slug,
-           status: res.data.status,
-           short_desc: res.data.short_desc,
-           content: res.data.content,
-           imageId: res.data.imageId
-         }
-         
-        }
+const Edit = ({ placeholder }) => {
+  const editor = useRef(null);
+  const [service, setService] = useState({});
+  const [content, setContent] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [imageId, setImageId] = useState(null);
+  const params = useParams();
+  const config = useMemo(
+    () => ({
+      readonly: false,
+      placeholder: placeholder || "",
+    }),
+    [placeholder]
+  );
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: async () => {
+      const response = await fetch(apiUrl + "services/" + params.id, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: "Bearer " + token(),
+        },
       });
-      const bgCard = useColorModeValue("white", "gray.800");
-      const headingColor = useColorModeValue("gray.700", "white");
-    
-      const onSubmit = async (data) => {
-        const newData = { ...data, "content": content , "imageId": imageId};
-        const response = await fetch(apiUrl + "services/" + params.id, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: "Bearer " + token(),
-          },
-          body: JSON.stringify(newData)
-        });
-         const res = await response.json();
-         if (!res.status) {
-           toast.error(res.message);
-           return;
-         }else{
-           toast.success(res.message);
-            navigate('/admin/services');
-         }
-         
+      const res = await response.json();
+      setContent(res.data.content);
+      setService(res.data);
+      console.log(res);
+      return {
+        title: res.data.title,
+        slug: res.data.slug,
+        status: res.data.status,
+        short_desc: res.data.short_desc,
+        content: res.data.content,
+        imageId: res.data.imageId,
       };
-    
-      const handleFile = async(e) => {
-        const formData = new FormData();
-        const file = e.target.files[0];
-        formData.append("image", file);
-        await fetch(apiUrl + "temp-images", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            Authorization: "Bearer " + token(),
-          },
-          body: formData
-        }).then(res => res.json()).then(res => {
-            setIsDisabled(true);
-            if (res.status==false) {
-                toast.error(res.errors.image[0]);
-                setIsDisabled(false);
-            }else{
-                setImageId(res.data.id);
-                setIsDisabled(false);
-            }
-            setIsDisabled(false);
-        });
-      };
+    },
+  });
+  const bgCard = useColorModeValue("white", "gray.800");
+  const headingColor = useColorModeValue("gray.700", "white");
+
+  const onSubmit = async (data) => {
+    const newData = { ...data, content: content, imageId: imageId };
+    const response = await fetch(apiUrl + "services/" + params.id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: "Bearer " + token(),
+      },
+      body: JSON.stringify(newData),
+    });
+    const res = await response.json();
+    if (!res.status) {
+      toast.error(res.message);
+      return;
+    } else {
+      toast.success(res.message);
+      navigate("/admin/services");
+    }
+  };
+
+  const handleFile = async (e) => {
+    const formData = new FormData();
+    const file = e.target.files[0];
+    formData.append("image", file);
+    await fetch(apiUrl + "temp-images", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + token(),
+      },
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setIsDisabled(true);
+        if (res.status == false) {
+          toast.error(res.errors.image[0]);
+          setIsDisabled(false);
+        } else {
+          setImageId(res.data.id);
+          setIsDisabled(false);
+        }
+        setIsDisabled(false);
+      });
+  };
   return (
-      <>
+    <>
       <Header />
       <Container maxW="container.xl" p={4}>
         <Flex gap={6}>
@@ -178,9 +182,7 @@ const Edit = ({placeholder}) => {
                     placeholder="Enter short description"
                   />
                   {errors.short_desc && (
-                    <p style={{ color: "red" }}>
-                      {errors.short_desc?.message}
-                    </p>
+                    <p style={{ color: "red" }}>{errors.short_desc?.message}</p>
                   )}
                 </FormControl>
 
@@ -192,7 +194,7 @@ const Edit = ({placeholder}) => {
                     tabIndex={1}
                     config={config}
                     onBlur={(newContent) => setContent(newContent)}
-                    onChange={(newContent) => setContent(newContent)}   
+                    onChange={(newContent) => setContent(newContent)}
                   />
                   {errors.content && (
                     <p style={{ color: "red" }}>{errors.content?.message}</p>
@@ -201,13 +203,10 @@ const Edit = ({placeholder}) => {
 
                 <FormControl>
                   <FormLabel>Image</FormLabel>
-                  <Input
-                  onChange={handleFile}
-                    type="file"
-                  />
+                  <Input onChange={handleFile} type="file" />
                   {service?.image && (
                     <img
-                      src={fieUrl+'uploads/services/small/'+service?.image}
+                      src={fieUrl + "uploads/services/small/" + service?.image}
                       style={{ width: "100px", height: "100px" }}
                     />
                   )}
@@ -246,7 +245,11 @@ const Edit = ({placeholder}) => {
       </Container>
       <Footer />
     </>
-  )
-}
+  );
+};
 
-export default Edit
+Edit.propTypes = {
+  placeholder: PropTypes.string,
+};
+
+export default Edit;

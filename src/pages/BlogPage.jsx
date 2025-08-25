@@ -1,4 +1,13 @@
-import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
+import React from "react";
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  Heading,
+  Image,
+  Text,
+} from "@chakra-ui/react";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import { useEffect, useState } from "react";
@@ -61,77 +70,89 @@ const BlogPage = () => {
             craftsmanship
           </Text>
         </Box>
-        {/* <Blogs/> */}
-        <Flex gap={4} justifyContent={"flex-start"} alignItems={"center"}>
-          {articles &&
-            articles?.map((project, i) => (
-              <Box
-                key={i}
-                position="relative"
-                borderRadius="xl"
-                overflow="hidden"
-                role="group"
-                cursor="pointer"
-                boxShadow="md"
-                _hover={{ transform: "translateY(-5px)" }}
-                transition="0.3s ease-in-out"
-              >
-                {/* Image */}
-                <Image
-                  // src={project.img}
-                  src={`${fieUrl}uploads/articles/small/${project.image}`}
-                  alt={project.title}
-                  style={{
-                    width: "100%",
-                    height: "300px",
-                    objectFit: "cover",
-                  }}
-                  transition="0.3s ease-in-out"
-                />
+        <Box w={"100%"} bg="gray.50" py={10}>
+          <Container maxW="8xl" textAlign="center">
+            <Text color="pink.500" fontWeight="bold" mb={2}>
+              OUR SERVICES
+            </Text>
+            <Heading mb={4}>Our construction services</Heading>
+            <Text mb={10} maxW="600px" mx="auto" color="gray.600">
+              We offer a diverse array of construction services, spanning
+              residential, commercial, and industrial projects.
+            </Text>
+            {/* <Blogs/> */}
+            <Flex gap={4} justifyContent={"flex-start"} alignItems={"center"}>
+              {articles &&
+                articles?.map((project, i) => (
+                  <Box
+                    key={i}
+                    position="relative"
+                    borderRadius="xl"
+                    overflow="hidden"
+                    role="group"
+                    cursor="pointer"
+                    boxShadow="md"
+                    _hover={{ transform: "translateY(-5px)" }}
+                    transition="0.3s ease-in-out"
+                  >
+                    {/* Image */}
+                    <Image
+                      // src={project.img}
+                      src={`${fieUrl}uploads/articles/small/${project.image}`}
+                      alt={project.title}
+                      style={{
+                        width: "100%",
+                        height: "300px",
+                        objectFit: "cover",
+                      }}
+                      transition="0.3s ease-in-out"
+                    />
 
-                {/* Title */}
-                <Text
-                  position="absolute"
-                  bottom="4"
-                  left="4"
-                  fontWeight="bold"
-                  fontSize="lg"
-                  color="white"
-                >
-                  {project.title}
-                </Text>
+                    {/* Title */}
+                    <Text
+                      position="absolute"
+                      bottom="4"
+                      left="4"
+                      fontWeight="bold"
+                      fontSize="lg"
+                      color="white"
+                    >
+                      {project.title}
+                    </Text>
 
-                {/* Hover overlay */}
-                <Box
-                  position="absolute"
-                  top="0"
-                  left="0"
-                  w="100%"
-                  h="100%"
-                  bg="rgba(0,0,0,0.6)"
-                  opacity="0"
-                  transition="0.3s ease-in-out"
-                  _hover={{ opacity: 1 }}
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="center"
-                  alignItems="center"
-                  p={6}
-                  textAlign="center"
-                >
-                  <Heading size="md" color="white" mb={3}>
-                    {project.title}
-                  </Heading>
-                  <Text color="gray.200" mb={4} fontSize="sm">
-                    {project.desc}
-                  </Text>
-                  <Button size="sm" colorScheme="pink">
-                    READ MORE
-                  </Button>
-                </Box>
-              </Box>
-            ))}
-        </Flex>
+                    {/* Hover overlay */}
+                    <Box
+                      position="absolute"
+                      top="0"
+                      left="0"
+                      w="100%"
+                      h="100%"
+                      bg="rgba(0,0,0,0.6)"
+                      opacity="0"
+                      transition="0.3s ease-in-out"
+                      _hover={{ opacity: 1 }}
+                      display="flex"
+                      flexDirection="column"
+                      justifyContent="center"
+                      alignItems="center"
+                      p={6}
+                      textAlign="center"
+                    >
+                      <Heading size="md" color="white" mb={3}>
+                        {project.title}
+                      </Heading>
+                      <Text color="gray.200" mb={4} fontSize="sm">
+                        {project.desc}
+                      </Text>
+                      <Button size="sm" colorScheme="pink">
+                        READ MORE
+                      </Button>
+                    </Box>
+                  </Box>
+                ))}
+            </Flex>
+          </Container>
+        </Box>
       </Box>
       <Footer />
     </>

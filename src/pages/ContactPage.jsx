@@ -1,14 +1,14 @@
-import React from 'react'
-import Header from '../components/common/Header'
-import Footer from '../components/common/Footer'
-import { Box, Text } from '@chakra-ui/react'
-import Contact from '../components/frontend/Contact'
+import React from "react";
+import Header from "../components/common/Header";
+import Footer from "../components/common/Footer";
+import { Box, Text } from "@chakra-ui/react";
+import Contact from "../components/frontend/Contact";
 
 const ContactPage = () => {
   return (
     <>
-    <Header/>
-     <Box w="100%">
+      <Header />
+      <Box w="100%">
         <Box
           backgroundImage={`linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.2)), url('../src/assets/images/hero.jpg')`}
           minH="400px"
@@ -50,10 +50,10 @@ const ContactPage = () => {
           </Text>
         </Box>
       </Box>
-      <Contact/>
-    <Footer/>
+      <Contact />
+      <Footer />
     </>
-  )
-}
+  );
+};
 
-export default ContactPage
+export default ContactPage;

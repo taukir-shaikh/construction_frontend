@@ -7,8 +7,8 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
+import React from "react";
 import Header from "../components/common/Header";
-import Projects from "../components/frontend/Projects";
 import Footer from "../components/common/Footer";
 import { useEffect, useState } from "react";
 import { apiUrl, fieUrl } from "../components/common/https";

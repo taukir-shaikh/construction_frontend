@@ -9,7 +9,6 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Header from "../components/common/Header";
-import Services from "../components/frontend/Services";
 import Footer from "../components/common/Footer";
 import { apiUrl, fieUrl } from "../components/common/https";
 

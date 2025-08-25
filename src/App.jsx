@@ -1,3 +1,4 @@
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -11,17 +12,15 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Dashboard from "./components/backend/Dashboard";
 import RequireAuth from "./components/common/RequireAuth";
-import {default as ShowServices} from "./components/backend/services/Show";
-import {default as CreateService} from "./components/backend/services/create";
-import {default as EditService} from "./components/backend/services/Edit";
-import {default as ShowProjects} from "./components/backend/projects/Show";
-import {default as CreateProject} from "./components/backend/projects/Create";
-import {default as EditProject} from "./components/backend/projects/Edit";
-import {default as ShowArticles} from "./components/backend/articles/show";
-import {default as CreateArticles} from "./components/backend/articles/create";
-import {default as EditArticles} from "./components/backend/articles/Edit";
-
-
+import { default as ShowServices } from "./components/backend/services/Show";
+import { default as CreateService } from "./components/backend/services/create";
+import { default as EditService } from "./components/backend/services/Edit";
+import { default as ShowProjects } from "./components/backend/projects/Show";
+import { default as CreateProject } from "./components/backend/projects/Create";
+import { default as EditProject } from "./components/backend/projects/Edit";
+import { default as ShowArticles } from "./components/backend/articles/show";
+import { default as CreateArticles } from "./components/backend/articles/create";
+import { default as EditArticles } from "./components/backend/articles/Edit";
 
 const App = () => {
   return (

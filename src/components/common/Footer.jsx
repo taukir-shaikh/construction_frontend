@@ -9,7 +9,7 @@ import {
   Text,
   useColorModeValue,
   Divider,
-} from "@chakra-ui/react";
+} from "@chakra-ui/react"; 
 
 const Footer = () => {
   const bg = useColorModeValue("#1a1d1a", "#1a1d1a"); // dark background

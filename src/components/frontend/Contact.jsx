@@ -43,8 +43,9 @@ export default function Contact() {
           Contact Us
         </Heading>
         <Text fontSize="md" color="gray.600" maxW="700px">
-          Our dedicated experts are here to help you with any of your questions, 
-          contact us by filling out the form below and we will be in touch shortly.
+          Our dedicated experts are here to help you with any of your questions,
+          contact us by filling out the form below and we will be in touch
+          shortly.
         </Text>
       </VStack>
 

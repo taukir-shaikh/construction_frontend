@@ -2,13 +2,10 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   Container,
-  SimpleGrid,
   Image,
   Heading,
   Text,
   Button,
-  Stack,
-  Grid,
   Flex,
 } from "@chakra-ui/react";
 import { apiUrl, fieUrl } from "../common/https";

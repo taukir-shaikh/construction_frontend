@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 
 const About = () => {
-  return (
+  return ( 
     <Box
       bg={useColorModeValue("gray.50", "gray.800")}
       py={{ base: 10, md: 20 }}

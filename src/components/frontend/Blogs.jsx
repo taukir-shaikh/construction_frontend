@@ -5,7 +5,7 @@ import {
   Heading,
   Text,
   Button,
-  Image,
+  Image, 
   SimpleGrid,
 } from "@chakra-ui/react";
 import { apiUrl, fieUrl } from "../common/https";

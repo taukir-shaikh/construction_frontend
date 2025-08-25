@@ -2,39 +2,13 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   Container,
-  SimpleGrid,
   Image,
   Heading,
   Text,
   Button,
-  Stack,
-  Grid,
   Flex,
 } from "@chakra-ui/react";
 import { apiUrl, fieUrl } from "../common/https";
-
-// const services = [
-//   {
-//     title: "Specialty Construction",
-//     img: "../src/assets/images/construction2.jpg",
-//     desc: "Specialty construction services tailored to unique projects.",
-//   },
-//   {
-//     title: "Industrial Construction",
-//     img: "../src/assets/images/construction3.jpg",
-//     desc: "Large-scale industrial building solutions for factories and plants.",
-//   },
-//   {
-//     title: "Building Construction",
-//     img: "../src/assets/images/construction5.jpg",
-//     desc: "Building construction is a broad and essential sector within the construction industry that focuses on the creation of structures designed for human occupancy and use.",
-//   },
-//   {
-//     title: "Residential Construction",
-//     img: "../src/assets/images/construction6.jpg",
-//     desc: "Custom and large-scale housing projects for all needs.",
-//   },
-// ];
 
 const Services = () => {
   const [services, setServices] = useState([]);

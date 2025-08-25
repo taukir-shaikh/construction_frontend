@@ -1,3 +1,4 @@
+import React, { useContext } from "react";
 import {
   Box,
   Flex,
@@ -13,9 +14,13 @@ import {
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
+import { authContext } from "../backend/context/Auth";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const { logout } = useContext(authContext)
   const { colorMode, toggleColorMode } = useColorMode();
+  const navigate = useNavigate();
 
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
@@ -119,11 +124,11 @@ const Header = () => {
         />
 
         {isUserLoggedIn ? (
-          <Button variant="outline" colorScheme="teal" size="sm">
+          <Button variant="outline" onClick={logout} colorScheme="teal" size="sm">
             Sign Out
           </Button>
         ) : (
-          <Button variant="solid" colorScheme="teal" size="sm">
+          <Button variant="solid" onClick={() => navigate("/admin/login")} colorScheme="teal" size="sm">
             Sign In
           </Button>
         )}

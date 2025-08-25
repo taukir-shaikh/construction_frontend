@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import Header from '../../common/Header'
-import Footer from '../../common/Footer'
+import React, { useEffect, useState } from "react";
+import Header from "../../common/Header";
+import Footer from "../../common/Footer";
 import {
   Box,
   Container,
@@ -14,79 +14,79 @@ import {
   Button,
   Heading,
   useColorModeValue,
-} from '@chakra-ui/react'
-import Sidebar from '../../common/Sidebar'
-import { apiUrl, token } from '../../common/https'
-import { Navigate, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
+} from "@chakra-ui/react";
+import Sidebar from "../../common/Sidebar";
+import { apiUrl, token } from "../../common/https";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Show = () => {
-    const [services, setServices] = useState([]);
-    const navigate = useNavigate();
+  const [services, setServices] = useState([]);
+  const navigate = useNavigate();
 
-    const fetchServices = async () => {
-      try {
-        const response = await fetch(apiUrl + 'services',{
-            method:'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': 'Bearer ' + token(),
-            }
-        })
-        const data = await response.json();
-        
-       setServices(Array.isArray(data?.data) ? data.data : [])
-      } catch (error) {
-        console.error('Error fetching services:', error)
+  const fetchServices = async () => {
+    try {
+      const response = await fetch(apiUrl + "services", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: "Bearer " + token(),
+        },
+      });
+      const data = await response.json();
+
+      setServices(Array.isArray(data?.data) ? data.data : []);
+    } catch (error) {
+      console.error("Error fetching services:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
+  const bgCard = useColorModeValue("white", "gray.800");
+  const tableHeadBg = useColorModeValue("gray.100", "gray.700");
+  const hoverRowBg = useColorModeValue("gray.50", "gray.600");
+  const headingColor = useColorModeValue("gray.700", "white");
+
+  const handleCreate = () => {
+    navigate("/admin/services/create");
+  };
+
+  const handleEdit = (id) => {
+    navigate(`/admin/services/edit/${id}`);
+  };
+
+  const handleDelete = async (id) => {
+    if (confirm("Are you sure you want to delete this service?")) {
+      const response = await fetch(apiUrl + "services" + "/" + id, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: "Bearer " + token(),
+        },
+      });
+      const res = await response.json();
+
+      if (res.status == true) {
+        const filteredServices = services.filter(
+          (service) => service.id !== id
+        );
+        setServices(filteredServices);
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
       }
     }
+  };
 
-    useEffect(() => {
-      fetchServices();
-    },[])
-
-      const bgCard = useColorModeValue('white', 'gray.800')
-      const tableHeadBg = useColorModeValue('gray.100', 'gray.700')
-      const hoverRowBg = useColorModeValue('gray.50', 'gray.600')
-      const headingColor = useColorModeValue('gray.700', 'white')
-    
-      const handleCreate = () => {
-        navigate('/admin/services/create');
-      }
-    
-      const handleEdit = (id) => {
-        navigate(`/admin/services/edit/${id}`);
-      }
-    
-      const handleDelete = async (id) => {
-        if (confirm('Are you sure you want to delete this service?')) {
-            
-            const response = await fetch(apiUrl + 'services' + '/' + id,{
-                method:'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': 'Bearer ' + token(),
-                }
-            })
-            const res = await response.json();
-
-            if (res.status==true) {
-                const filteredServices = services.filter(service => service.id !== id);
-                setServices(filteredServices);
-                toast.success(res.message);
-            }else{
-                toast.error(res.message);
-            }
-            
-        }
-      }
-    
   return (
     <>
-    <Header/>
-          <Container maxW="container.xl" p={4}>
+      <Header />
+      <Container maxW="container.xl" p={4}>
         <Flex gap={6}>
           <Box w="250px">
             <Sidebar />
@@ -108,7 +108,7 @@ const Show = () => {
                 colorScheme="pink"
                 borderRadius="full"
                 boxShadow="md"
-                _hover={{ boxShadow: 'xl', transform: 'scale(1.05)' }}
+                _hover={{ boxShadow: "xl", transform: "scale(1.05)" }}
                 transition="all 0.2s"
                 onClick={handleCreate}
               >
@@ -117,7 +117,12 @@ const Show = () => {
             </Flex>
 
             {Array.isArray(services) && services.length > 0 && (
-              <Table variant="striped" colorScheme="gray" borderRadius="md" overflow="hidden">
+              <Table
+                variant="striped"
+                colorScheme="gray"
+                borderRadius="md"
+                overflow="hidden"
+              >
                 <Thead bg={tableHeadBg}>
                   <Tr>
                     <Th>ID</Th>
@@ -128,7 +133,7 @@ const Show = () => {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  { services?.map((service) => (
+                  {services?.map((service) => (
                     <Tr
                       key={service.id}
                       _hover={{ bg: hoverRowBg }}
@@ -147,7 +152,7 @@ const Show = () => {
                           fontSize="sm"
                           borderRadius="full"
                         >
-                          {(service.status===1)?'Active':'Inactive'}
+                          {service.status === 1 ? "Active" : "Inactive"}
                         </Box>
                       </Td>
                       <Td>
@@ -157,7 +162,7 @@ const Show = () => {
                             colorScheme="yellow"
                             borderRadius="full"
                             onClick={() => handleEdit(service.id)}
-                            _hover={{ transform: 'scale(1.05)' }}
+                            _hover={{ transform: "scale(1.05)" }}
                             transition="all 0.2s"
                           >
                             EDIT
@@ -167,7 +172,7 @@ const Show = () => {
                             colorScheme="red"
                             borderRadius="full"
                             onClick={() => handleDelete(service.id)}
-                            _hover={{ transform: 'scale(1.05)' }}
+                            _hover={{ transform: "scale(1.05)" }}
                             transition="all 0.2s"
                           >
                             DELETE
@@ -182,9 +187,9 @@ const Show = () => {
           </Box>
         </Flex>
       </Container>
-    <Footer/>
+      <Footer />
     </>
-  )
-}
+  );
+};
 
-export default Show
+export default Show;

@@ -1,4 +1,4 @@
-import React, { useState,useRef,useMemo } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import Sidebar from "../../common/Sidebar";
 import Footer from "../../common/Footer";
 import Header from "../../common/Header";
@@ -17,17 +17,21 @@ import { apiUrl, token } from "../../common/https";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import JoditEditor from "jodit-react";
+import PropTypes from "prop-types";
 
-const Create = ({placeholder}) => {
-    const editor = useRef(null);
-    const [content, setContent] = useState('');
-    const [isDisabled, setIsDisabled] = useState(false);
-    const [imageId, setImageId] = useState(null);
-    const config = useMemo(() => ({
-        readonly:false,
-        placeholder:placeholder || "Type here...",
-    }), [placeholder]);
-    const navigate = useNavigate();
+const Create = ({ placeholder }) => {
+  const editor = useRef(null);
+  const [content, setContent] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [imageId, setImageId] = useState(null);
+  const config = useMemo(
+    () => ({
+      readonly: false,
+      placeholder: placeholder || "Type here...",
+    }),
+    [placeholder]
+  );
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -37,7 +41,7 @@ const Create = ({placeholder}) => {
   const headingColor = useColorModeValue("gray.700", "white");
 
   const onSubmit = async (data) => {
-    const newData = { ...data, "content": content , "imageId": imageId};
+    const newData = { ...data, content: content, imageId: imageId };
     const response = await fetch(apiUrl + "projects", {
       method: "POST",
       headers: {
@@ -45,21 +49,20 @@ const Create = ({placeholder}) => {
         Accept: "application/json",
         Authorization: "Bearer " + token(),
       },
-      body: JSON.stringify(newData)
+      body: JSON.stringify(newData),
     });
-     const res = await response.json();
-     if (!res.status) {
-       toast.error(res.message);
-       return;
-     }else{
-       toast.success(res.message);
-        navigate('/admin/projects');
-     }
-     console.log(res);
-     
+    const res = await response.json();
+    if (!res.status) {
+      toast.error(res.message);
+      return;
+    } else {
+      toast.success(res.message);
+      navigate("/admin/projects");
+    }
+    console.log(res);
   };
 
-  const handleFile = async(e) => {
+  const handleFile = async (e) => {
     const formData = new FormData();
     const file = e.target.files[0];
     formData.append("image", file);
@@ -69,18 +72,20 @@ const Create = ({placeholder}) => {
         Accept: "application/json",
         Authorization: "Bearer " + token(),
       },
-      body: formData
-    }).then(res => res.json()).then(res => {
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((res) => {
         setIsDisabled(true);
-        if (res.status==false) {
-            toast.error(res.errors.image[0]);
-            setIsDisabled(false);
-        }else{
-            setImageId(res.data.id);
-            setIsDisabled(false);
+        if (res.status == false) {
+          toast.error(res.errors.image[0]);
+          setIsDisabled(false);
+        } else {
+          setImageId(res.data.id);
+          setIsDisabled(false);
         }
         setIsDisabled(false);
-    });
+      });
   };
 
   return (
@@ -147,7 +152,9 @@ const Create = ({placeholder}) => {
                 <FormControl>
                   <FormLabel>Location</FormLabel>
                   <Input
-                    {...register("location", { required: "location is required" })}
+                    {...register("location", {
+                      required: "location is required",
+                    })}
                     type="text"
                     placeholder="Enter location"
                   />
@@ -158,12 +165,16 @@ const Create = ({placeholder}) => {
                 <FormControl>
                   <FormLabel>Construction Type</FormLabel>
                   <Input
-                    {...register("construction_type", { required: "Construction Type is required" })}
+                    {...register("construction_type", {
+                      required: "Construction Type is required",
+                    })}
                     type="text"
                     placeholder="Enter construction_type"
                   />
                   {errors.construction_type && (
-                    <p style={{ color: "red" }}>{errors.construction_type?.message}</p>
+                    <p style={{ color: "red" }}>
+                      {errors.construction_type?.message}
+                    </p>
                   )}
                 </FormControl>
                 <FormControl>
@@ -187,9 +198,7 @@ const Create = ({placeholder}) => {
                     placeholder="Enter short description"
                   />
                   {errors.short_desc && (
-                    <p style={{ color: "red" }}>
-                      {errors.short_desc?.message}
-                    </p>
+                    <p style={{ color: "red" }}>{errors.short_desc?.message}</p>
                   )}
                 </FormControl>
 
@@ -201,7 +210,7 @@ const Create = ({placeholder}) => {
                     tabIndex={1}
                     config={config}
                     onBlur={(newContent) => setContent(newContent)}
-                    onChange={(newContent) => setContent(newContent)}   
+                    onChange={(newContent) => setContent(newContent)}
                   />
                   {errors.content && (
                     <p style={{ color: "red" }}>{errors.content?.message}</p>
@@ -210,10 +219,7 @@ const Create = ({placeholder}) => {
 
                 <FormControl>
                   <FormLabel>Image</FormLabel>
-                  <Input
-                  onChange={handleFile}
-                    type="file"
-                  />
+                  <Input onChange={handleFile} type="file" />
                 </FormControl>
 
                 <FormControl>
@@ -250,6 +256,10 @@ const Create = ({placeholder}) => {
       <Footer />
     </>
   );
+};
+
+Create.propTypes = {
+  placeholder: PropTypes.string,
 };
 
 export default Create;

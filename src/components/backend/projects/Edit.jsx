@@ -17,6 +17,7 @@ import { apiUrl, fieUrl, token } from "../../common/https";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import JoditEditor from "jodit-react";
+import PropTypes from "prop-types";
 
 const Edit = ({ placeholder }) => {
   const editor = useRef(null);
@@ -286,6 +287,10 @@ const Edit = ({ placeholder }) => {
       <Footer />
     </>
   );
+};
+
+Edit.propTypes = {
+  placeholder: PropTypes.string,
 };
 
 export default Edit;

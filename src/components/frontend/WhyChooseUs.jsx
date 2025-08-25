@@ -6,7 +6,6 @@ import {
   Heading,
   Text,
   Icon,
-  Stack,
 } from "@chakra-ui/react";
 import { FiZap, FiAward, FiTrendingUp } from "react-icons/fi";
 
