@@ -21,6 +21,9 @@ import { default as EditProject } from "./components/backend/projects/Edit";
 import { default as ShowArticles } from "./components/backend/articles/show";
 import { default as CreateArticles } from "./components/backend/articles/create";
 import { default as EditArticles } from "./components/backend/articles/Edit";
+import { default as ShowTestimonials } from "./components/backend/testimonials/Show";
+import { default as CreateTestimonials } from "./components/backend/testimonials/create";
+import { default as EditTestimonials } from "./components/backend/testimonials/Edit";
 
 const App = () => {
   return (
@@ -111,6 +114,30 @@ const App = () => {
             element={
               <RequireAuth>
                 <EditArticles />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin/testimonials"
+            element={
+              <RequireAuth>
+                <ShowTestimonials />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin/testimonials/create"
+            element={
+              <RequireAuth>
+                <CreateTestimonials />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin/testimonials/edit/:id"
+            element={
+              <RequireAuth>
+                <EditTestimonials />
               </RequireAuth>
             }
           />
