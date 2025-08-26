@@ -1,84 +1,22 @@
-import React from "react";
-import {
-  Box,
-  Container,
-  Heading,
-  Text,
-  Avatar,
-  Flex,
-} from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { Box, Container, Heading, Text, Avatar, Flex } from "@chakra-ui/react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-const testimonials = [
-  {
-    name: "Shivani",
-    role: "CTO",
-    image: "https://randomuser.me/api/portraits/women/1.jpg",
-    review:
-      "We recently partnered with SAASA for our construction project, and the experience was outstanding. Their team demonstrated exceptional professionalism, attention to detail, and commitment to quality. From planning to execution.",
-    rating: 5,
-  },
-  {
-    name: "Rani",
-    role: "DEV",
-    image: "https://randomuser.me/api/portraits/women/2.jpg",
-    review:
-      "We recently partnered with SAASA for our construction project, and the experience was outstanding. Their team demonstrated exceptional professionalism, attention to detail, and commitment to quality. From planning to execution.",
-    rating: 5,
-  },
-  {
-    name: "Mohit",
-    role: "Developer",
-    image: "https://randomuser.me/api/portraits/men/3.jpg",
-    review:
-      "We recently partnered with SAASA for our construction project, and the experience was outstanding. Their team demonstrated exceptional professionalism, attention to detail, and commitment to quality. From planning to execution.",
-    rating: 5,
-  },
-  {
-    name: "Anita",
-    role: "Designer",
-    image: "https://randomuser.me/api/portraits/women/4.jpg",
-    review:
-      "We recently partnered with SAASA for our construction project, and the experience was outstanding. Their team demonstrated exceptional professionalism, attention to detail, and commitment to quality. From planning to execution.",
-    rating: 5,
-  },
-  {
-    name: "Raj",
-    role: "Manager",
-    image: "https://randomuser.me/api/portraits/men/5.jpg",
-    review:
-      "We recently partnered with SAASA for our construction project, and the experience was outstanding. Their team demonstrated exceptional professionalism, attention to detail, and commitment to quality. From planning to execution.",
-    rating: 5,
-  },
-  {
-    name: "Priya",
-    role: "Engineer",
-    image: "https://randomuser.me/api/portraits/women/6.jpg",
-    review:
-      "We recently partnered with SAASA for our construction project, and the experience was outstanding. Their team demonstrated exceptional professionalism, attention to detail, and commitment to quality. From planning to execution.",
-    rating: 5,
-  },
-  {
-    name: "Vikram",
-    role: "Consultant",
-    image: "https://randomuser.me/api/portraits/men/7.jpg",
-    review:
-      "We recently partnered with SAASA for our construction project, and the experience was outstanding. Their team demonstrated exceptional professionalism, attention to detail, and commitment to quality. From planning to execution.",
-    rating: 5,
-  },
-  {
-    name: "Sonal",
-    role: "Architect",
-    image: "https://randomuser.me/api/portraits/women/8.jpg",
-    review:
-      "We recently partnered with SAASA for our construction project, and the experience was outstanding. Their team demonstrated exceptional professionalism, attention to detail, and commitment to quality. From planning to execution.",
-    rating: 5,
-  },
-];
+import { apiUrl } from "../common/https";
 
 const Testimony = () => {
+  const [testimonials, setTestimonials] = useState([]);
+  const fetchLatestTestimonials = async () => {
+    const response = await fetch(apiUrl + "get-latest-testimonials?limit=3");
+    const result = await response.json();
+    setTestimonials(result);
+  };
+
+  useEffect(() => {
+    fetchLatestTestimonials();
+  }, []);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -135,7 +73,7 @@ const Testimony = () => {
         </Text>
 
         <Slider {...settings}>
-          {testimonials.map((t, index) => (
+          {testimonials?.map((testimony, index) => (
             <Box key={index} px={2}>
               <Box
                 p={6}
@@ -147,7 +85,7 @@ const Testimony = () => {
                 flexDirection="column"
               >
                 <Flex mb={4}>
-                  {Array(t.rating)
+                  {Array(testimony.rating)
                     .fill("")
                     .map((_, i) => (
                       <Text key={i} color="yellow.400">
@@ -156,14 +94,19 @@ const Testimony = () => {
                     ))}
                 </Flex>
                 <Text mb={6} flex="1" overflow="hidden">
-                  {t.review}
+                  {testimony.testimonial}
                 </Text>
                 <Flex align="center" mt="auto">
-                  <Avatar src={t.image} name={t.name} size="md" mr={4} />
+                  <Avatar
+                    src={testimony.image}
+                    name={testimony.name}
+                    size="md"
+                    mr={4}
+                  />
                   <Box>
-                    <Text fontWeight="bold">{t.name}</Text>
+                    <Text fontWeight="bold">{testimony.citation}</Text>
                     <Text fontSize="sm" color="gray.500">
-                      {t.role}
+                      {testimony.designation}
                     </Text>
                   </Box>
                 </Flex>
