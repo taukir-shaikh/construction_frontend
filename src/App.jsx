@@ -24,6 +24,9 @@ import { default as EditArticles } from "./components/backend/articles/Edit";
 import { default as ShowTestimonials } from "./components/backend/testimonials/Show";
 import { default as CreateTestimonials } from "./components/backend/testimonials/create";
 import { default as EditTestimonials } from "./components/backend/testimonials/Edit";
+import { default as ShowMembers } from "./components/backend/members/Show";
+import { default as CreateMembers } from "./components/backend/members/Create";
+import { default as EditMembers } from "./components/backend/members/Edit";
 
 const App = () => {
   return (
@@ -138,6 +141,30 @@ const App = () => {
             element={
               <RequireAuth>
                 <EditTestimonials />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin/members"
+            element={
+              <RequireAuth>
+                <ShowMembers />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin/members/create"
+            element={
+              <RequireAuth>
+                <CreateMembers />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin/members/edit/:id"
+            element={
+              <RequireAuth>
+                <EditMembers />
               </RequireAuth>
             }
           />

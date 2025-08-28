@@ -28,7 +28,7 @@ const Sidebar = () => {
     { label: "Services", icon: FaProjectDiagram, to: "/admin/services" },
     { label: "Projects", icon: FaProjectDiagram, to: "/admin/projects" },
     { label: "Testimonials", icon: FaQuoteRight, to: "/admin/testimonials" },
-    { label: "Members", icon: FaUsers, to: "/members" },
+    { label: "Members", icon: FaUsers, to: "/admin/members" },
   ];
 
   return (

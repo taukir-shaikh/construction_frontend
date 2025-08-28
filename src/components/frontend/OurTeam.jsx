@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -10,36 +10,22 @@ import {
   Container,
 } from "@chakra-ui/react";
 import { FaLinkedin } from "react-icons/fa";
-
-const teamMembers = [
-  {
-    name: "Yaw Doe",
-    role: "Hahaya",
-    image: "https://via.placeholder.com/300x300.png?text=Shield+Icon",
-  },
-  {
-    name: "Mark Doe",
-    role: "Senior Developer",
-    image: "https://randomuser.me/api/portraits/men/32.jpg",
-  },
-  {
-    name: "Mark Doe",
-    role: "Manager",
-    image: "https://randomuser.me/api/portraits/men/40.jpg",
-  },
-  {
-    name: "John Doe",
-    role: "Team Lead",
-    image: "https://randomuser.me/api/portraits/men/50.jpg",
-  },
-  {
-    name: "Mohit Singh",
-    role: "Web Developer",
-    image: "https://randomuser.me/api/portraits/men/60.jpg",
-  },
-];
+import { apiUrl, fieUrl } from "../common/https";
 
 export default function OurTeam() {
+  const [members, setMembers] = useState([]);
+  const fetchLatestMembers = async () => {
+    const response = await fetch(apiUrl + "get-members");
+    const result = await response.json();
+    console.log(result?.data);
+
+    setMembers(result?.data);
+  };
+
+  useEffect(() => {
+    fetchLatestMembers();
+  }, []);
+
   return (
     <Container maxW="7xl" py={10}>
       <VStack spacing={3} textAlign="center" mb={10}>
@@ -53,39 +39,43 @@ export default function OurTeam() {
       </VStack>
 
       <Flex wrap="wrap" justify="center" gap={6}>
-        {teamMembers.map((member, index) => (
-          <Box
-            key={index}
-            w="230px"
-            bg="white"
-            borderRadius="xl"
-            overflow="hidden"
-            boxShadow="md"
-            transition="transform 0.2s"
-            _hover={{ transform: "translateY(-5px)", boxShadow: "xl" }}
-          >
-            <Image
-              src={member.image}
-              alt={member.name}
-              objectFit="cover"
-              h="250px"
-              w="100%"
-            />
-            <Box p={4}>
-              <Text fontWeight="bold">{member.name}</Text>
-              <Text fontSize="sm" color="gray.500">
-                {member.role}
-              </Text>
-              <IconButton
-                mt={3}
-                size="sm"
-                colorScheme="linkedin"
-                icon={<FaLinkedin />}
-                aria-label="LinkedIn"
+        {members &&
+          members?.map((member, index) => (
+            <Box
+              onClick={() => {
+                window.open(member.linkedin, "_blank");
+              }}
+              key={index}
+              w="230px"
+              bg="white"
+              borderRadius="xl"
+              overflow="hidden"
+              boxShadow="md"
+              transition="transform 0.2s"
+              _hover={{ transform: "translateY(-5px)", boxShadow: "xl" }}
+            >
+              <Image
+                src={`${fieUrl}uploads/members/${member.image}`}
+                alt={member.name}
+                objectFit="cover"
+                h="250px"
+                w="100%"
               />
+              <Box p={4}>
+                <Text fontWeight="bold">{member.name}</Text>
+                <Text fontSize="sm" color="gray.500">
+                  {member.job_title}
+                </Text>
+                <IconButton
+                  mt={3}
+                  size="sm"
+                  colorScheme="linkedin"
+                  icon={<FaLinkedin />}
+                  aria-label="LinkedIn"
+                />
+              </Box>
             </Box>
-          </Box>
-        ))}
+          ))}
       </Flex>
     </Container>
   );
