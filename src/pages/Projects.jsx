@@ -12,8 +12,10 @@ import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import { useEffect, useState } from "react";
 import { apiUrl, fieUrl } from "../components/common/https";
+import { useNavigate } from "react-router-dom";
 
 const ProjectPage = () => {
+  const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const fetchProjects = async () => {
     const response = await fetch(apiUrl + "get-projects");
@@ -144,7 +146,7 @@ const ProjectPage = () => {
                       <Text color="gray.200" mb={4} fontSize="sm">
                         {project.desc}
                       </Text>
-                      <Button size="sm" colorScheme="pink">
+                      <Button size="sm" colorScheme="pink" onClick={() => navigate(`/project/${project.id}`)}>
                         READ MORE
                       </Button>
                     </Box>

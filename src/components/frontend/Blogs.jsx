@@ -9,8 +9,10 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import { apiUrl, fieUrl } from "../common/https";
+import { useNavigate } from "react-router-dom";
 
 const Blogs = () => {
+  const navigate = useNavigate();
   const [articles, setArticles] = useState([]);
   const fetchLatestArticles = async () => {
     const response = await fetch(apiUrl + "get-latest-articles?limit=3");
@@ -71,6 +73,7 @@ const Blogs = () => {
                   color="white"
                   _hover={{ bg: "pink.600" }}
                   borderRadius="md"
+                  onClick={()=> navigate(`/blog/${post.id}`)}
                 >
                   Read More
                 </Button>

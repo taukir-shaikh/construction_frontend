@@ -70,7 +70,7 @@ export default function OurTeam() {
                   mt={3}
                   size="sm"
                   colorScheme="linkedin"
-                  icon={<FaLinkedin />}
+                  icon={<FaLinkedin size={16} color="black" />}
                   aria-label="LinkedIn"
                 />
               </Box>

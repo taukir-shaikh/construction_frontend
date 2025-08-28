@@ -9,20 +9,22 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { apiUrl, fieUrl } from "../common/https";
+import { useNavigate } from "react-router-dom";
 
 const Projects = () => {
-      const [projects, setProjects] = useState([]);
-    const fetchLatestProjects = async () => {
-      const response = await fetch(apiUrl + "get-latest-projects?limit=3");
-      const result = await response.json();  
-      console.log(result?.data);
-        
-      setProjects(result?.data);
-    };
-  
-    useEffect(() => {
-      fetchLatestProjects();
-    }, []);
+  const navigate = useNavigate();
+  const [projects, setProjects] = useState([]);
+  const fetchLatestProjects = async () => {
+    const response = await fetch(apiUrl + "get-latest-projects?limit=3");
+    const result = await response.json();
+    console.log(result?.data);
+
+    setProjects(result?.data);
+  };
+
+  useEffect(() => {
+    fetchLatestProjects();
+  }, []);
 
   return (
     <Box w={"100%"} bg="gray.50" py={10}>
@@ -37,70 +39,75 @@ const Projects = () => {
         </Text>
 
         <Flex gap={4} justifyContent={"flex-start"} alignItems={"center"}>
-          {projects && projects?.map((project, i) => (
-            <Box
-              key={i}
-              position="relative"
-              borderRadius="xl"
-              overflow="hidden"
-              role="group"
-              cursor="pointer"
-              boxShadow="md"
-              _hover={{ transform: "translateY(-5px)" }}
-              transition="0.3s ease-in-out"
-            >
-              {/* Image */}
-              <Image
-                src={`${fieUrl}uploads/projects/small/${project.image}`}
-                alt={project.title}
-                objectFit="cover"
-                w="100%"
-                h="300px"
-                transition="0.3s ease-in-out"
-              />
-
-              {/* Title */}
-              <Text
-                position="absolute"
-                bottom="4"
-                left="4"
-                fontWeight="bold"
-                fontSize="lg"
-                color="white"
-              >
-                {project.title}
-              </Text>
-
-              {/* Hover overlay */}
+          {projects &&
+            projects?.map((project, i) => (
               <Box
-                position="absolute"
-                top="0"
-                left="0"
-                w="100%"
-                h="100%"
-                bg="rgba(0,0,0,0.6)"
-                opacity="0"
+                key={i}
+                position="relative"
+                borderRadius="xl"
+                overflow="hidden"
+                role="group"
+                cursor="pointer"
+                boxShadow="md"
+                _hover={{ transform: "translateY(-5px)" }}
                 transition="0.3s ease-in-out"
-                _hover={{ opacity: 1 }}
-                display="flex"
-                flexDirection="column"
-                justifyContent="center"
-                alignItems="center"
-                p={6}
-                textAlign="center"
               >
-                <Heading size="md" color="white" mb={3}>
+                {/* Image */}
+                <Image
+                  src={`${fieUrl}uploads/projects/small/${project.image}`}
+                  alt={project.title}
+                  objectFit="cover"
+                  w="100%"
+                  h="300px"
+                  transition="0.3s ease-in-out"
+                />
+
+                {/* Title */}
+                <Text
+                  position="absolute"
+                  bottom="4"
+                  left="4"
+                  fontWeight="bold"
+                  fontSize="lg"
+                  color="white"
+                >
                   {project.title}
-                </Heading>
-                <Text color="gray.200" mb={4} fontSize="sm">
-                  {project.desc}
                 </Text>
-                <Button size="sm" colorScheme="pink">
-                  READ MORE
-                </Button>
+
+                {/* Hover overlay */}
+                <Box
+                  position="absolute"
+                  top="0"
+                  left="0"
+                  w="100%"
+                  h="100%"
+                  bg="rgba(0,0,0,0.6)"
+                  opacity="0"
+                  transition="0.3s ease-in-out"
+                  _hover={{ opacity: 1 }}
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="center"
+                  alignItems="center"
+                  p={6}
+                  textAlign="center"
+                >
+                  <Heading size="md" color="white" mb={3}>
+                    {project.title}
+                  </Heading>
+                  <Text color="gray.200" mb={4} fontSize="sm">
+                    {project.desc}
+                  </Text>
+                  <Button
+                    size="sm"
+                    colorScheme="pink"
+                    onClick={() => navigate(`/project/${project.id}`)}
+                  >
+                    READ MORE
+                  </Button>
+                </Box>
               </Box>
-            </Box>
-          ))}
+            ))}
         </Flex>
       </Container>
     </Box>

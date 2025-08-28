@@ -9,8 +9,10 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { apiUrl, fieUrl } from "../common/https";
+import { useNavigate } from "react-router-dom";
 
 const Services = () => {
+  const navigate = useNavigate();
   const [services, setServices] = useState([]);
   const fetchLatestServices = async () => {
     const response = await fetch(apiUrl + "get-latest-services?limit=3");
@@ -98,7 +100,7 @@ const Services = () => {
                 <Text color="gray.200" mb={4} fontSize="sm">
                   {service.short_desc}
                 </Text>
-                <Button size="sm" colorScheme="pink">
+                <Button size="sm" colorScheme="pink" onClick={() => {navigate(`/service/${service.id}`)}}>
                   READ MORE
                 </Button>
               </Box>

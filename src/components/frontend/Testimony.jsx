@@ -3,7 +3,7 @@ import { Box, Container, Heading, Text, Avatar, Flex } from "@chakra-ui/react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { apiUrl } from "../common/https";
+import { apiUrl, fieUrl } from "../common/https";
 
 const Testimony = () => {
   const [testimonials, setTestimonials] = useState([]);
@@ -98,7 +98,8 @@ const Testimony = () => {
                 </Text>
                 <Flex align="center" mt="auto">
                   <Avatar
-                    src={testimony.image}
+                    // src={testimony.image}
+                    src={`${fieUrl}uploads/testimonials/${testimony.image}`}
                     name={testimony.name}
                     size="md"
                     mr={4}

@@ -27,6 +27,9 @@ import { default as EditTestimonials } from "./components/backend/testimonials/E
 import { default as ShowMembers } from "./components/backend/members/Show";
 import { default as CreateMembers } from "./components/backend/members/Create";
 import { default as EditMembers } from "./components/backend/members/Edit";
+import ServiceDetail from "./pages/ServiceDetail";
+import ProjectDetail from "./pages/ProjectDetail";
+import BlogDetail from "./pages/BlogDetail";
 
 const App = () => {
   return (
@@ -36,6 +39,9 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<ServicePage />} />
+          <Route path="/service/:id" element={<ServiceDetail />} />
+          <Route path="/project/:id" element={<ProjectDetail />} />
+          <Route path="/blog/:id" element={<BlogDetail />} />
           <Route path="/projects" element={<ProjectPage />} />
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/contact" element={<ContactPage />} />

@@ -11,8 +11,10 @@ import {
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import { apiUrl, fieUrl } from "../components/common/https";
+import { useNavigate } from "react-router-dom";
 
 const ServicePage = () => {
+  const navigate = useNavigate();
   const [services, setServices] = useState([]);
   const fetchServices = async () => {
     const response = await fetch(apiUrl + "get-services");
@@ -146,7 +148,13 @@ const ServicePage = () => {
                     <Text color="gray.200" mb={4} fontSize="sm">
                       {service.short_desc}
                     </Text>
-                    <Button size="sm" colorScheme="pink">
+                    <Button
+                      size="sm"
+                      colorScheme="pink"
+                      onClick={() => {
+                        navigate(`/service/${service.id}`);
+                      }}
+                    >
                       READ MORE
                     </Button>
                   </Box>

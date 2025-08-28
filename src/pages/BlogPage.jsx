@@ -12,8 +12,10 @@ import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import { useEffect, useState } from "react";
 import { apiUrl, fieUrl } from "../components/common/https";
+import { useNavigate } from "react-router-dom";
 
 const BlogPage = () => {
+  const navigate = useNavigate();
   const [articles, setArticles] = useState([]);
   const fetchArticles = async () => {
     const response = await fetch(apiUrl + "get-articles");
@@ -144,7 +146,9 @@ const BlogPage = () => {
                       <Text color="gray.200" mb={4} fontSize="sm">
                         {project.desc}
                       </Text>
-                      <Button size="sm" colorScheme="pink">
+                      <Button size="sm" colorScheme="pink" 
+                  onClick={()=> navigate(`/blog/${project.id}`)}
+                      >
                         READ MORE
                       </Button>
                     </Box>
