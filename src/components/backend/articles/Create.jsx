@@ -58,7 +58,6 @@ const Create = ({ placeholder }) => {
       toast.success(res.message);
       navigate("/admin/articles");
     }
-    console.log(res);
   };
 
   const handleFile = async (e) => {

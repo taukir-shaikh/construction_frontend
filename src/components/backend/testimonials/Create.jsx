@@ -48,7 +48,6 @@ const Create = () => {
       toast.success(res.message);
       navigate("/admin/testimonials");
     }
-    console.log(res);
   };
 
   const handleFile = async (e) => {

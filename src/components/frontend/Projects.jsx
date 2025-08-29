@@ -17,7 +17,6 @@ const Projects = () => {
   const fetchLatestProjects = async () => {
     const response = await fetch(apiUrl + "get-latest-projects?limit=3");
     const result = await response.json();
-    console.log(result?.data);
 
     setProjects(result?.data);
   };

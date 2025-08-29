@@ -51,7 +51,6 @@ const Edit = ({ placeholder }) => {
       const res = await response.json();
       setContent(res.data.content);
       setService(res.data);
-      console.log(res);
       return {
         title: res.data.title,
         slug: res.data.slug,

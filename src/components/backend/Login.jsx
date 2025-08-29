@@ -59,7 +59,6 @@ const Login = () => {
       login(userInfo);
       navigate("/admin/dashboard");
     }
-    console.log(result);
   };
 
   return (

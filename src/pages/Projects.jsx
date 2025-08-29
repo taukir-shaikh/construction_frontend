@@ -20,7 +20,6 @@ const ProjectPage = () => {
   const fetchProjects = async () => {
     const response = await fetch(apiUrl + "get-projects");
     const result = await response.json();
-    console.log(result?.data);
 
     setProjects(result?.data);
   };

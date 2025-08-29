@@ -19,7 +19,6 @@ const Blogs = () => {
     const result = await response.json();
 
     setArticles(result?.data);
-    console.log(result?.data);
   };
 
   useEffect(() => {

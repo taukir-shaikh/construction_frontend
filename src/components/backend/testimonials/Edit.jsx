@@ -40,7 +40,6 @@ const Edit = () => {
       const res = await response.json();
       setContent(res.data.content);
       setTestimonial(res.data);
-      console.log(res);
       return {
         testimonial: res.data.testimonial,
         citation: res.data.citation,

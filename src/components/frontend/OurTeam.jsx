@@ -17,7 +17,6 @@ export default function OurTeam() {
   const fetchLatestMembers = async () => {
     const response = await fetch(apiUrl + "get-members");
     const result = await response.json();
-    console.log(result?.data);
 
     setMembers(result?.data);
   };
