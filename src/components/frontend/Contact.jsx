@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Container,
@@ -13,26 +13,33 @@ import {
   Button,
   SimpleGrid,
 } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+import { apiUrl } from "../common/https";
+import { toast } from "react-toastify";
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-    alert("Form submitted successfully!");
-    setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+  const onSubmit = async (data) => {
+    const res = await fetch(apiUrl + "contact-now", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const result = await res.json();
+    if (!result.status) {
+      alert(result.message);
+      return;
+    }
+    toast.success(result.message);
+    reset();
   };
 
   return (
@@ -87,7 +94,7 @@ export default function Contact() {
         {/* Contact Form */}
         <Box
           as="form"
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           bg="white"
           p={6}
           borderRadius="2xl"
@@ -100,9 +107,11 @@ export default function Contact() {
               <Input
                 name="name"
                 placeholder="Enter Name"
-                value={formData.name}
-                onChange={handleChange}
+                {...register("name", { required: "Name is required" })}
               />
+              {errors.name && (
+                <p style={{ color: "red" }}>{errors.name?.message}</p>
+              )}
             </FormControl>
 
             <FormControl>
@@ -110,9 +119,17 @@ export default function Contact() {
               <Input
                 name="email"
                 placeholder="Enter Email"
-                value={formData.email}
-                onChange={handleChange}
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Invalid email address",
+                  },
+                })}
               />
+              {errors.email && (
+                <p style={{ color: "red" }}>{errors.email?.message}</p>
+              )}
             </FormControl>
 
             <FormControl>
@@ -120,8 +137,7 @@ export default function Contact() {
               <Input
                 name="phone"
                 placeholder="Phone No."
-                value={formData.phone}
-                onChange={handleChange}
+                {...register("phone")}
               />
             </FormControl>
 
@@ -130,9 +146,11 @@ export default function Contact() {
               <Input
                 name="subject"
                 placeholder="Subject"
-                value={formData.subject}
-                onChange={handleChange}
+                {...register("subject", { required: "Subject is required" })}
               />
+              {errors.subject && (
+                <p style={{ color: "red" }}>{errors.subject?.message}</p>
+              )}
             </FormControl>
           </SimpleGrid>
 
@@ -141,10 +159,12 @@ export default function Contact() {
             <Textarea
               name="message"
               placeholder="Message"
-              value={formData.message}
-              onChange={handleChange}
+              {...register("message", { required: "Message is required" })}
               rows={5}
             />
+            {errors.message && (
+              <p style={{ color: "red" }}>{errors.message?.message}</p>
+            )}
           </FormControl>
 
           <Button
